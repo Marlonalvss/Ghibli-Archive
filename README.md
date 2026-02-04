@@ -3,11 +3,15 @@
 
 **Ghibli Archive** é um projeto que exibe filmes do Studio Ghibli, permitindo que os usuários filtrem filmes por título, ano de lançamento e diretor. A aplicação oferece uma experiência interativa com informações detalhadas sobre cada filme, como descrição, diretor, produtor e tempo de execução.
 
-![Ghibli Archive](./src/StudioGhibli.png)
+## 📸 Screenshots
+
+| Página Inicial | Modal de Detalhes |
+|:---:|:---:|
+| ![Home](./assets/images/screenshot-home.png) | ![Modal](./assets/images/screenshot-modal.png) |
 
 ## 🌎 Demo
 
-[Ghibli Archive - Live Demo](https://marlonalvss.github.io/Ghibli/)
+[Ghibli Archive - Live Demo](https://marlonalvss.github.io/Ghibli-Archive/)
 
 ## 🚀 Funcionalidades
 
