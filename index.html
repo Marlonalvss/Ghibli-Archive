@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghibli Archive | Exploring the Magic</title>
+    <meta name="description" content="An unofficial archive of the magical worlds created by Studio Ghibli.">
+    <link rel="icon" href="./assets/images/Ghibli_logo.png" type="image/png">
+
+    <!-- Fonts: Spline Sans (UI) and Playfair Display (Headings/Serif) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- Theme Config -->
+    <!-- Theme Config -->
+    <script src="./js/theme-config.js"></script>
+    <link rel="stylesheet" href="./styles/main.css">
+    <script type="module" src="./js/main.js"></script>
+</head>
+
+<body
+    class="bg-background-light text-ink font-display overflow-x-hidden antialiased selection:bg-primary selection:text-white">
+    <div class="min-h-screen flex flex-col relative">
+
+        <!-- Navigation -->
+        <header class="sticky top-0 z-50 w-full bg-[#fcfbf4]/95 backdrop-blur-sm border-b-2 border-[#e6e4dc]">
+            <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+                <!-- Logo -->
+                <a class="flex items-center group" href="#" onclick="window.location.reload();">
+                    <img src="./assets/images/Ghibli_logo.png" alt="Studio Ghibli Logo"
+                        class="h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
+                </a>
+
+                <!-- Nav & Mobile Menu -->
+                <div class="flex items-center gap-8">
+                    <!-- Nav Links (Desktop) -->
+                    <nav class="hidden md:flex items-center gap-8">
+                        <a class="text-ink font-medium hover:text-primary-dark transition-colors relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all hover:after:w-full"
+                            href="#films" data-i18n="navFilms">Films</a>
+                        <a class="text-ink-light hover:text-primary-dark transition-colors"
+                            href="https://ghibliapi.vercel.app/" target="_blank" data-i18n="navApi">API Source</a>
+
+                        <!-- Language Toggle -->
+                        <button id="lang-toggle"
+                            class="flex items-center gap-2 px-3 py-1.5 bg-[#eef0eb] hover:bg-[#e2e6de] text-ink font-bold text-xs rounded-lg transition-all border border-transparent hover:border-[#dcdad0]">
+                            <span class="material-symbols-outlined text-sm">language</span>
+                            <span id="lang-label">EN</span>
+                        </button>
+                    </nav>
+
+                    <button id="mobile-menu-btn" class="md:hidden p-2 text-ink hover:bg-black/5 rounded-lg">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-grow flex flex-col items-center w-full px-6 py-12 bg-texture">
+            <div class="w-full max-w-7xl flex flex-col gap-10">
+
+                <!-- Search & Filters Section (Hidden on Mobile) -->
+                <section
+                    class="hidden md:flex w-full flex-col md:flex-row gap-6 items-end justify-between bg-white/60 p-6 rounded-2xl border-2 border-dashed border-[#dcdad0]">
+                    <!-- Search Input -->
+                    <div class="flex-1 w-full md:max-w-xl">
+                        <label class="block text-sm font-bold text-ink-light mb-2 ml-1 uppercase tracking-wider"
+                            data-i18n="searchLabel">Search
+                            Library</label>
+                        <div class="relative group">
+                            <input id="search"
+                                class="block w-full pl-4 pr-12 py-3.5 bg-white border-2 border-[#e6e4dc] text-ink placeholder-ink-light/70 rounded-xl focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all font-medium text-lg shadow-sm"
+                                placeholder="Search in pt-br or en-us..." type="text" data-i18n="searchPlaceholder" />
+                            <div
+                                class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-ink-light group-focus-within:text-primary-dark transition-colors">
+                                <span class="material-symbols-outlined">search</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Filters -->
+                    <div class="w-full md:w-auto flex flex-wrap gap-3">
+                        <select id="director-filter"
+                            class="px-4 py-3 bg-white border-2 border-[#e6e4dc] rounded-xl focus:border-primary focus:ring-0 transition-colors text-ink font-medium min-w-[150px] appearance-none cursor-pointer">
+                            <option value="" data-i18n="filterDirector">Director</option>
+                        </select>
+
+                        <select id="year-filter"
+                            class="px-4 py-3 bg-white border-2 border-[#e6e4dc] rounded-xl focus:border-primary focus:ring-0 transition-colors text-ink font-medium min-w-[120px] appearance-none cursor-pointer">
+                            <option value="" data-i18n="filterYear">Year</option>
+                        </select>
+
+                        <select id="sort-filter"
+                            class="px-4 py-3 bg-[#eef0eb] border-2 border-transparent hover:bg-[#e2e6de] rounded-xl transition-colors text-ink-light font-medium cursor-pointer appearance-none">
+                            <option value="" data-i18n="filterSort">Sort: Newest</option>
+                            <option value="newest" data-i18n="sortNewest">Newest First</option>
+                            <option value="oldest" data-i18n="sortOldest">Oldest First</option>
+                        </select>
+
+                        <button id="clear-filters"
+                            class="hidden px-5 py-3 bg-ink text-background-light hover:bg-primary hover:text-background-dark font-bold rounded-xl transition-all shadow-lg active:scale-95 text-sm uppercase tracking-wider"
+                            data-i18n="clearFilters">
+                            Clear Filters
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Collection Info -->
+                <div class="flex items-center justify-between border-b border-[#e6e4dc] pb-4">
+                    <h2 class="text-3xl font-serif font-bold text-ink" id="films" data-i18n="filmsCollection">Films
+                        Collection</h2>
+                    <span id="items-count"
+                        class="text-ink-light font-medium bg-[#eef0eb] px-3 py-1 rounded-full text-sm">-- items</span>
+                </div>
+
+                <!-- Loader -->
+                <div id="loader-container" class="hidden flex flex-col items-center justify-center py-24">
+                    <div class="size-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                    <p class="mt-4 font-medium text-ink-light">Curating magical world...</p>
+                </div>
+
+                <!-- Movie Grid -->
+                <div id="movie-list"
+                    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-12">
+                    <!-- Cards are injected here -->
+                </div>
+
+
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="w-full bg-[#f4f2ea] border-t border-[#e6e4dc] py-10 px-6">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex flex-col gap-2 text-center md:text-left">
+                    <div class="flex items-center justify-center md:justify-start gap-2">
+                        <img src="./assets/images/Ghibli_logo.png" alt="Studio Ghibli Logo"
+                            class="h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
+                        <h4 class="font-serif font-bold text-ink text-lg">Ghibli Archive</h4>
+                    </div>
+                    <p class="text-ink-light text-sm max-w-xs" data-i18n="footerDesc">Unofficial Studio Ghibli archive.
+                        Created for study and passion for animation.</p>
+                </div>
+                <div class="flex gap-6 text-sm font-medium text-ink">
+                    <a class="hover:text-primary-dark transition-colors" href="https://github.com/Marlonalvss"
+                        target="_blank">GitHub</a>
+                    <a class="hover:text-primary-dark transition-colors" href="https://ghibliapi.vercel.app/"
+                        target="_blank">Docs</a>
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto mt-8 pt-6 border-t border-[#e6e4dc]/50 text-center md:text-left">
+                <p class="text-xs text-ink-light/70">© 2025 Ghibli Archive Project. Not affiliated with Studio Ghibli.
+                </p>
+            </div>
+        </footer>
+
+        <!-- Detail Modal -->
+        <div id="movie-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 modal-blur">
+            <div id="modal-overlay" class="absolute inset-0 bg-background-dark/80"></div>
+            <div
+                class="relative bg-background-light rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border-2 border-[#e6e4dc] animate-fade-in">
+                <button id="close-modal"
+                    class="absolute top-4 right-4 z-10 size-10 bg-white border border-[#e6e4dc] rounded-full flex items-center justify-center hover:bg-primary transition-colors">
+                    <span class="material-symbols-outlined text-ink">close</span>
+                </button>
+                <div id="modal-content">
+                    <!-- Dynamic Content -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Sidebar Overlay (Placeholder for logic) -->
+        <div id="mobile-drawer" class="fixed inset-0 z-[100] hidden">
+            <div id="drawer-overlay" class="absolute inset-0 bg-ink/60 backdrop-blur-sm"></div>
+            <div id="drawer-content"
+                class="absolute left-0 top-0 h-full w-72 bg-background-light shadow-2xl transform transition-transform -translate-x-full border-r-2 border-[#e6e4dc] p-8">
+                <div class="flex items-center justify-between mb-8 border-b border-[#e6e4dc] pb-4">
+                    <span class="text-xl font-serif font-bold text-ink" data-i18n="menuTitle">Menu & Filters</span>
+                    <button id="close-drawer" class="text-ink hover:text-primary transition-colors">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+
+                <div class="flex flex-col gap-8">
+                    <!-- Mobile Search -->
+                    <div class="flex flex-col gap-2">
+                        <label class="text-xs font-bold text-ink-light uppercase tracking-widest"
+                            data-i18n="mobileSearchLabel">Search</label>
+                        <div class="relative">
+                            <input id="search-mobile"
+                                class="w-full pl-4 pr-10 py-3 bg-white border-2 border-[#e6e4dc] rounded-xl text-ink focus:border-primary focus:outline-none transition-all"
+                                placeholder="Film or director..." type="text" data-i18n="mobileSearchPlaceholder" />
+                            <span
+                                class="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-ink-light">search</span>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Filters -->
+                    <div class="flex flex-col gap-4">
+                        <label class="text-xs font-bold text-ink-light uppercase tracking-widest"
+                            data-i18n="mobileFiltersLabel">Filters</label>
+                        <select id="director-filter-mobile"
+                            class="w-full px-4 py-3 bg-white border-2 border-[#e6e4dc] rounded-xl text-ink font-medium appearance-none cursor-pointer">
+                            <option value="" data-i18n="filterDirector">Director</option>
+                        </select>
+
+                        <select id="year-filter-mobile"
+                            class="w-full px-4 py-3 bg-white border-2 border-[#e6e4dc] rounded-xl text-ink font-medium appearance-none cursor-pointer">
+                            <option value="" data-i18n="filterYear">Year</option>
+                        </select>
+
+                        <select id="sort-filter-mobile"
+                            class="w-full px-4 py-3 bg-[#eef0eb] border-none rounded-xl text-ink font-medium cursor-pointer appearance-none">
+                            <option value="" data-i18n="filterSort">Sort: Newest</option>
+                            <option value="newest" data-i18n="sortNewest">Newest First</option>
+                            <option value="oldest" data-i18n="sortOldest">Oldest First</option>
+                        </select>
+                    </div>
+
+                    <!-- Mobile Clear -->
+                    <button id="clear-filters-mobile"
+                        class="hidden w-full py-4 bg-ink text-white font-bold rounded-xl active:scale-95 transition-all shadow-lg"
+                        data-i18n="mobileClear">
+                        Clear All Filters
+                    </button>
+
+                    <!-- Navigation Links -->
+                    <nav class="flex flex-col gap-4 pt-4 border-t border-dashed border-[#dcdad0]">
+                        <a href="#films" onclick="closeDrawer()"
+                            class="text-lg font-medium text-ink hover:text-primary-dark flex items-center gap-3">
+                            <span class="material-symbols-outlined">movie</span> Films Collection
+                        </a>
+                        <a href="https://ghibliapi.vercel.app/" target="_blank"
+                            class="text-lg font-medium text-ink-light hover:text-primary-dark flex items-center gap-3">
+                            <span class="material-symbols-outlined">api</span> API Source
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollTopBtn"
+        class="fixed bottom-8 right-8 z-[60] flex items-center justify-center size-14 bg-ink text-white rounded-full shadow-2xl shadow-black/40 hover:scale-110 active:scale-95 transition-all duration-500 opacity-0 translate-y-20 pointer-events-none group border-2 border-white/10">
+        <div
+            class="absolute inset-0 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        </div>
+        <span
+            class="relative z-10 material-symbols-outlined text-3xl transition-transform group-hover:text-ink group-hover:-translate-y-1">arrow_upward</span>
+        <span class="sr-only" data-i18n="backToTop">Back to Top</span>
+    </button>
+</body>
+
+</html>
